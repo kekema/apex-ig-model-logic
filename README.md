@@ -6,7 +6,7 @@ This plugin can be helpful when you make use of IG's and want to delegate applic
 - when making use of the model API, you get into details like record- and field metadata.
 
 To make implementing application logic in the model layer much more convenient, the plugin offers:
-- 'onFieldChange', 'onEvaluateRecords', 'onSetAggregateValue', 'onInitCalcValue' and 'onInitCheckCallback' event handlers
+- 'onFieldChange', 'onEvaluateRecord', 'onSetAggregateValue', 'onInitCalcValue' and 'onInitCheckCallback' event handlers
 - a high-level API
 
 Usage: <br/>
@@ -38,4 +38,17 @@ $(function(){
     });
 });
 ````
+<ins>onFieldChange</ins>: gets triggered when a field value of a record is changed. The ctx context object will have a whole set of util methods:
+<p></p>
+<img width="70%" height="70%" alt="image" src="https://github.com/user-attachments/assets/aeb205b6-cb11-4e4f-a0de-347141c9df91" />
+</p>
+<p>
+Notice a method like 'setNativeValue' where you can use the native JavaScript value to set the value of a field, and where you have the 'suppressFieldChangeHandler' argument available.
+</p>
+
+<ins>onEvaluateRecord</ins>: gets triggered when a record is added to the model from the server data, or when a record is refreshed after being saved, or when a record is reverted, or when a record is inserted or copied, or when the editing of a record is finishing (apexendrecordedit). This event handler you can use for example when you want to conditionally highlight a column field. You can use the 'setFieldHighlight' method here.
+
+
+<ins>onSetAggregateValue</ins>: gets triggered when an aggregate value is set from either an aggregate as defined in 'Column Initialization JavaScript Function', or when an aggregate is defined from 'Actions' menu.
+
 
