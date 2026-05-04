@@ -5,6 +5,8 @@ This plugin can be helpful when you make use of IG's and want to delegate applic
 - model notifications are like messaging deltas from the model to the view(s). They serve infrastructure rather than application-level semantics: 'set', 'addData', 'revert', etc: they are instructions to the view(s). 
 - when making use of the model API, you get into details like record- and field metadata.
 
-For a more in depth exploration with examples, see this blog item.
+To make implementing application logic in the model layer much more convenient, the plugin offers:
+- 'onFieldChange', 'onEvaluateRecords', 'onInitCalcValue' and 'onInitCheckCallback' event handlers
+- a high-level API
 
 
