@@ -6,7 +6,36 @@ This plugin can be helpful when you make use of IG's and want to delegate applic
 - when making use of the model API, you get into details like record- and field metadata.
 
 To make implementing application logic in the model layer much more convenient, the plugin offers:
-- 'onFieldChange', 'onEvaluateRecords', 'onInitCalcValue' and 'onInitCheckCallback' event handlers
+- 'onFieldChange', 'onEvaluateRecords', 'onSetAggregateValue', 'onInitCalcValue' and 'onInitCheckCallback' event handlers
 - a high-level API
 
+Usage: <br/>
+Page - Function and Global Variable Declaration:
+
+````
+$(function(){
+    lib4x.ig.modelLogic.registerHandlers('ig_static_id', {
+        onInitCalcValue: function(initCtx)
+        {
+
+        },
+        onInitCheckCallback: function(initCtx)
+        {
+
+        },          
+        onEvaluateRecord: function(ctx) 
+        {
+
+        },
+        onFieldChange: function(ctx)
+        {
+                  
+        },
+        onSetAggregateValue: function(ctx)
+        {
+
+        }
+    });
+});
+````
 
