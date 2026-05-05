@@ -9,7 +9,7 @@ To make implementing application logic in the model layer much more convenient, 
 - 'onFieldChange', 'onEvaluateRecord', 'onSetAggregateValue', 'onInitCalcValue' and 'onInitCheckCallback' event handlers
 - a high-level API
 
-#### Usage <br/>
+#### Usage 
 Page - Function and Global Variable Declaration:
 
 ````
@@ -43,7 +43,7 @@ $(function(){
 <img width="85%" height="85%" alt="image" src="https://github.com/user-attachments/assets/aeb205b6-cb11-4e4f-a0de-347141c9df91" />
 </p>
 <p>
-Notice a method like 'setNativeValue' where you can use the native JavaScript value to set the value of a field, and where you have the 'suppressFieldChangeHandler' argument available.
+Notice a method like 'setNativeValue' where you can use the native JavaScript value to set the value of a field (numbers/dates), and where you have the 'suppressFieldChangeHandler' argument available.
 </p>
 
 <ins>onEvaluateRecord</ins>: gets triggered when a record is added to the model from the server data, or when a record is refreshed after being saved, or when a record is reverted, or when a record is inserted or copied, or when the editing of a record is finishing (apexendrecordedit). This event handler you can use for example when you want to conditionally highlight a column field. You can use the 'setFieldHighlight' method here.
@@ -89,3 +89,21 @@ onInitCheckCallback: function(initCtx)
     });
 }
 ````
+#### Plugin Initialization
+On 'Page Load' event, configure next 'True' action:
+<p>
+<img width="40%" height="40%" alt="image" src="https://github.com/user-attachments/assets/6fffbd43-5f1e-4695-ab09-d9d770453497" />
+</p>
+
+IG/Attributes/Initialization JavaScript Function: (only needed for 'onInitCalcValue' and 'onInitCheckCallback')
+
+````
+function(options) {
+	//....
+    lib4x.ig.modelLogic.init(igConfig);
+    return igConfig;
+}
+````
+<h3>Plugin versions</h3>
+Version 1.0.0 - build under APEX 24.2<br>
+
