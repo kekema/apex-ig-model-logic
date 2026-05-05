@@ -51,4 +51,18 @@ Notice a method like 'setNativeValue' where you can use the native JavaScript va
 
 <ins>onSetAggregateValue</ins>: gets triggered when an aggregate value is set from either an aggregate as defined in 'Column Initialization JavaScript Function', or when an aggregate is defined from 'Actions' menu.
 
+<ins>onInitCalcValue</ins>
+Example:
+````
+onInitCalcValue: function(initCtx)
+{
+    if (initCtx.columnName == 'LINETOTAL')
+    {
+        initCtx.setCalcValue('UNIT_PRICE', 'QUANTITY', function(calcCtx){
+            let lineTotal = calcCtx.getNativeValue('UNIT_PRICE') * calcCtx.getNativeValue('QUANTITY');
+            return isNaN(lineTotal) ? 0 : lineTotal;
+        });
+    }
+}
+````
 
