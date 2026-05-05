@@ -9,7 +9,7 @@ To make implementing application logic in the model layer much more convenient, 
 - 'onFieldChange', 'onEvaluateRecord', 'onSetAggregateValue', 'onInitCalcValue' and 'onInitCheckCallback' event handlers
 - a high-level API
 
-Usage: <br/>
+#### Usage <br/>
 Page - Function and Global Variable Declaration:
 
 ````
@@ -49,7 +49,19 @@ Notice a method like 'setNativeValue' where you can use the native JavaScript va
 <ins>onEvaluateRecord</ins>: gets triggered when a record is added to the model from the server data, or when a record is refreshed after being saved, or when a record is reverted, or when a record is inserted or copied, or when the editing of a record is finishing (apexendrecordedit). This event handler you can use for example when you want to conditionally highlight a column field. You can use the 'setFieldHighlight' method here.
 
 
-<ins>onSetAggregateValue</ins>: gets triggered when an aggregate value is set from either an aggregate as defined in 'Column Initialization JavaScript Function', or when an aggregate is defined from 'Actions' menu.
+<ins>onSetAggregateValue</ins>: gets triggered when an aggregate value is set from either an aggregate as defined in 'Column Initialization JavaScript Function', or when an aggregate is defined from 'Actions' menu. Enabling to highlight the aggregate value:
+````
+onSetAggregateValue: function(ctx)
+{
+    if (ctx.aggregateFunction == 'SUM' && ctx.isGrandTotal && ctx.fieldName == 'SAL')
+    {
+        ctx.setFieldHighlight('SAL', ctx.getNativeValue() > 400000 ? 'cell-highlight': null);
+    }
+}
+````
+<p>
+<img width="40%" height="40%" alt="image" src="https://github.com/user-attachments/assets/0e7df5d0-1be6-4856-9069-cba1d854ab6c" />
+</p>
 
 <ins>onInitCalcValue</ins>
 
@@ -61,9 +73,19 @@ onInitCalcValue: function(initCtx)
     {
         initCtx.setCalcValue('UNIT_PRICE', 'QUANTITY', function(calcCtx){
             let lineTotal = calcCtx.getNativeValue('UNIT_PRICE') * calcCtx.getNativeValue('QUANTITY');
-            return isNaN(lineTotal) ? 0 : lineTotal;
+            return isNaN(lineTotal) ? '' : lineTotal;
         });
     }
 }
 ````
+<ins>onInitCheckCallback</ins>
 
+See [CheckCallback](https://docs.oracle.com/en/database/oracle/apex/24.2/aexjs/model.html#.CheckCallback)
+````
+onInitCheckCallback: function(initCtx)
+{
+    initCtx.setCheckCallback(function(checkCtx){
+        return checkCtx.result;
+    });
+}
+````
