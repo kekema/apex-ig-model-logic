@@ -52,6 +52,7 @@ Notice a method like 'setNativeValue' where you can use the native JavaScript va
 <ins>onSetAggregateValue</ins>: gets triggered when an aggregate value is set from either an aggregate as defined in 'Column Initialization JavaScript Function', or when an aggregate is defined from 'Actions' menu.
 
 <ins>onInitCalcValue</ins>
+
 Example:
 ````
 onInitCalcValue: function(initCtx)
