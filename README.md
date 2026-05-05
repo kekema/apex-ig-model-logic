@@ -40,7 +40,7 @@ $(function(){
 ````
 <ins>onFieldChange</ins>: gets triggered when a field value of a record is changed. The ctx context object will have a whole set of util methods:
 <p></p>
-<img width="70%" height="70%" alt="image" src="https://github.com/user-attachments/assets/aeb205b6-cb11-4e4f-a0de-347141c9df91" />
+<img width="85%" height="85%" alt="image" src="https://github.com/user-attachments/assets/aeb205b6-cb11-4e4f-a0de-347141c9df91" />
 </p>
 <p>
 Notice a method like 'setNativeValue' where you can use the native JavaScript value to set the value of a field, and where you have the 'suppressFieldChangeHandler' argument available.
