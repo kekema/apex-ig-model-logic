@@ -923,7 +923,7 @@ lib4x.axt.ig.modelLogic = (function ($) {
         // to trigger 'onInitCalcValue' and 'onInitCheckCallback', initModel
         // must be called from IG/attributes/JS Initialization function, just before 'return options;'
         // potentially, we could also have a 'onInitVisibilityFilter', however not really required as 
-        // in onEvaluateRecords, records can be set to hidden
+        // in onEvaluateRecord, records can be set to hidden
         function initModel(igOptions)
         {
             let igStaticId = igOptions.regionStaticId;
