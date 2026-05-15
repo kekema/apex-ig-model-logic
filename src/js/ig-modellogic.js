@@ -16,6 +16,8 @@ lib4x.axt.ig.modelLogic = (function ($) {
     let ig_ml_eventHandlers = {};    
     // per-record + per-field suppression flag map to support 'suppressFieldChangeHandler'
     let suppressionMap = new WeakMap();
+    // region id property name as depending on the APEX version (regionStaticId/regionDomId)
+    let regionIdPropertyName;
 
     // modelLogic util methods
     let modelUtil = {
@@ -410,7 +412,7 @@ lib4x.axt.ig.modelLogic = (function ($) {
                 // from which the above setValidity is effectively undone
                 // in below code we rectify this. The above 'setValidity' is still also needed as without, 
                 // a view like Spreadsheet View will miss it because of the below timeout
-                let igStaticId = model.getOption('regionStaticId');
+                let igStaticId = model.getOption(regionIdPropertyName);
                 if (igStaticId)
                 {
                     let gridView = apex.region(igStaticId).call('getViews').grid;
@@ -572,7 +574,7 @@ lib4x.axt.ig.modelLogic = (function ($) {
     let modelModule = (function() {
         apex.gPageContext$.on("interactivegridviewmodelcreate", function(jQueryEvent, data){  
             // check if handlers are registered for the IG
-            let igStaticId = data.model.getOption('regionStaticId');
+            let igStaticId = data.model.getOption(regionIdPropertyName);
             if (ig_ml_eventHandlers.hasOwnProperty(igStaticId))
             {
                 let model = data.model;
@@ -798,7 +800,7 @@ lib4x.axt.ig.modelLogic = (function ($) {
         // reason reflects what was triggering the evaluate: addData, refreshRecords, endRecordEdit, etc
         function evaluateRecords(model, records, reason)
         {
-            let igStaticId = model.getOption('regionStaticId');
+            let igStaticId = model.getOption(regionIdPropertyName);
             let ctx = Object.create(ctxPrototype);
             ctx.model = model;
             ctx.reason = reason;
@@ -848,7 +850,7 @@ lib4x.axt.ig.modelLogic = (function ($) {
         // trigger 'onFieldChange' handler with ctx context object
         function onFieldChange(model, change)
         {
-            let igStaticId = model.getOption('regionStaticId');            
+            let igStaticId = model.getOption(regionIdPropertyName);            
             let ctx = Object.create(ctxPrototype);
             ctx.model = model;
             ctx.recordId = change.recordId;
@@ -888,7 +890,7 @@ lib4x.axt.ig.modelLogic = (function ($) {
         // onSetAggregateValue will be triggered in this second scenario.
         function onSetAggregateValue(model, change, recordMetadata)
         {
-            let igStaticId = model.getOption('regionStaticId');            
+            let igStaticId = model.getOption(regionIdPropertyName);            
             let ctx = Object.create(ctxPrototype);
             ctx.model = model;
             ctx.recordId = change.recordId;
@@ -926,7 +928,7 @@ lib4x.axt.ig.modelLogic = (function ($) {
         // in onEvaluateRecord, records can be set to hidden
         function initModel(igOptions)
         {
-            let igStaticId = igOptions.regionStaticId;
+            let igStaticId = igOptions[regionIdPropertyName];
             initCheckCallback(igStaticId, igOptions);
             for (const columnOptions of igOptions.columns) {
                 if (!columnOptions.hasOwnProperty('specialType'))
@@ -1039,6 +1041,9 @@ lib4x.axt.ig.modelLogic = (function ($) {
             initModel: initModel
         }
     })();
+
+    const [apexMajorVersion, apexMinorVersion, apexPatchVersion] = apex.env.APEX_VERSION.split(".").map(Number);
+    regionIdPropertyName = apexMajorVersion >= 26 ? 'regionDomId' : 'regionStaticId';    
 
     // subscribe to 'apexendrecordedit' / 'lib4xendrecordedit' events for triggering record evaluation
     // 'lib4xendrecordedit' is thrown by lib4x plugins: IG Spreadsheet View, Exec Server-Side IG Row Logic
